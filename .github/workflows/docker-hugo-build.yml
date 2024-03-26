@@ -1,0 +1,34 @@
+name: Docker Hugo Build
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'test/**'
+      - 'Dockerfile'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v3
+
+    - name: Build Docker image
+      run: docker build . -t hugo-site-builder
+
+    - name: Run Docker image to build Hugo site
+      run: |
+        docker run --name hugo_builder hugo-site-builder hugo --source /test --destination /public
+
+    - name: Copy built site from container
+      run: |
+        docker cp hugo_builder:/public ./public
+
+    - name: Archive Hugo site
+      uses: actions/upload-artifact@v3
+      with:
+        name: hugo-site
+        path: ./public/
