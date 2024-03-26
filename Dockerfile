@@ -30,7 +30,7 @@ RUN apt-get -y install --no-install-recommends \
 
 RUN echo "#################################################"
 RUN echo "Install Node.js, npm, and Dart SASS with specific versions to ensure compatibility"
-ARG NODE_VERSION=20.x
+ARG NODE_VERSION=21.x
 ENV NPM_VERSION=10.5.0
 ENV SASS_VERSION=1.72.0
 
